@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>लेख by seemron</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="style.css" rel="stylesheet">
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="logo">Seemron ko लेख</div>
+  <div class="menu">
+    <a href="index.html">Home</a>
+    <a href="#">About</a>
+  </div>
+</nav>
+
+<!-- Main Section -->
+<main class="blog-list" id="blog-list">
+  <!-- Blog cards will be inserted here by JavaScript -->
+</main>
+
+<script>
+fetch('./blogs.json')
+  .then(response => response.json())
+  .then(data => {
+    const list = document.getElementById('blog-list');
+    data.forEach(blog => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="card-content">
+            <h2>${blog.title}</h2>
+            <div class="date">${blog.date}</div>
+            <p>${blog.excerpt}</p>
+            <a href="blog.html?id=${blog.id}" class="read-more">Read more &rarr;</a>
+        </div>`;
+      list.appendChild(card);
+    });
+  })
+  .catch(error => {
+    console.error(error);
+    const list = document.getElementById('blog-list');
+    list.innerHTML = '<p class="error">Error loading blog data. Ensure you run this from a server (http://)...</p>';
+  });
+</script>
+</body>
+</html>
